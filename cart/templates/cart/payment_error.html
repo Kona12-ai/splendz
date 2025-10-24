@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Payment Error</title>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <h2 class="text-danger">Payment Failed</h2>
+    <p>There was an error initializing your payment. Please try again.</p>
+    <a href="{% url 'checkout' %}" class="btn btn-dark mt-3">Back to Checkout</a>
+</div>
+{% endblock %}

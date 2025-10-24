@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Splendz | Register</title>
+{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<header class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white" data-animate>
+      <h1 class="display-4 fw-bolder">Join Splendz</h1>
+      <p class="lead fw-normal text-white-50 mb-0">Create your account and start shopping smarter</p>
+    </div>
+  </div>
+</header>
+
+<!-- Register Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card border-0 shadow-lg rounded-4 p-4 glass-card" data-animate>
+          <h3 class="text-center mb-4 fw-semibold text-primary">Create Account</h3>
+
+          <form method="POST" action="{% url 'register' %}" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="form-wrapper">
+              {{ form.as_p }}
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary py-2 fw-semibold">
+                <i class="bi bi-person-plus me-2"></i>Register
+              </button>
+            </div>
+
+            <p class="text-center mt-4 mb-0">
+              Already have an account?
+              <a href="{% url 'login' %}" class="text-decoration-none fw-medium">Login here</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ✨ Glass effect card */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.4s ease;
+  }
+
+  body.dark-mode .glass-card {
+    background: rgba(30, 30, 30, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* 🧾 Form field styling */
+  form p {
+    margin-bottom: 1rem;
+  }
+
+  form label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  body.dark-mode form label {
+    color: #f8f9fa;
+  }
+
+  form input,
+  form select,
+  form textarea {
+    border-radius: 10px !important;
+    border: 1px solid #ccc !important;
+    padding: 10px 14px !important;
+    width: 100%;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  form input:focus,
+  form select:focus,
+  form textarea:focus {
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25) !important;
+    outline: none !important;
+  }
+
+  /* 🌈 Subtle animation */
+  .glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 🔘 Primary button override */
+  .btn-primary {
+    border-radius: 30px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+  }
+</style>
+
+{% endblock %}

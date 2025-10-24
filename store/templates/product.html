@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Splendz | {{ product.name }}</title>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 mb-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="card shadow-lg border-0">
+          <div class="row g-0">
+            <!-- Product Image -->
+            <div class="col-md-5">
+              <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+            </div>
+
+            <!-- Product Details -->
+            <div class="col-md-7">
+              <div class="card-body">
+                <h3 class="card-title fw-bold">{{ product.name }}</h3>
+                <p class="card-text text-muted">{{ product.description }}</p>
+
+                {% if product.is_sale %}
+                  <span class="badge bg-danger mb-2">SALE</span>
+                  <p class="fs-5 mb-0">
+                    <span class="text-muted text-decoration-line-through">₦{{ product.price }}</span>
+                    <span class="fw-bold text-success">₦{{ product.sale_price }}</span>
+                  </p>
+                {% else %}
+                  <p class="fs-5 fw-bold text-dark">₦{{ product.price }}</p>
+                {% endif %}
+
+                <hr>
+
+            
+               <div class="d-flex align-items-center gap-2">
+                 <a href="{% url 'home' %}" class="btn btn-secondary">
+                   <i class="bi bi-house-door"></i> Home
+                 </a>
+                 <form method="POST" action="{% url 'cart_add' product.id %}">
+                     {% csrf_token %}
+                  <button class="btn btn-dark">
+                   <i class="bi bi-cart-plus"></i> Add to Cart
+                 </button>
+               </form>
+
+              </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <a href="{% url 'home' %}" class="text-decoration-none text-muted">← Back to Shop</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  const addToCartBtn = document.getElementById('add-to-cart');
+  addToCartBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    const productId = this.dataset.product;
+
+    fetch(`/cart/add/${productId}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': csrftoken,
+      },
+      body: `productid=${productId}&productqty=1`
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(`Added to cart! Total items: ${data.qty}`);
+      const cartCount = document.getElementById('cart-count');
+      if (cartCount) cartCount.innerText = data.qty;
+    });
+  });
+});
+</script>
+{% endblock %}
+
+
+{% comment %} {% extends "base.html" %}
+
+{% block title %}
+<title>JBuy | {{ product.name }}</title>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow-lg border-0">
+                    <div class="row g-0">
+                        <!-- Product Image -->
+                        <div class="col-md-5">
+                            <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}" style="height:100%; width:100%;">
+                        </div>
+
+                        <!-- Product Details -->
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <h3 class="card-title fw-bold">{{ product.name }}</h3>
+                                <p class="card-text text-muted">{{ product.description }}</p>
+
+                                {% if product.is_sale %}
+                                    <!-- Sale Badge -->
+                                    <span class="badge bg-danger mb-2">SALE</span>
+                                    <div class="text-warning mb-2">
+                                        <i class="bi bi-star-fill"></i>
+                                        &nbsp;<strong>Discount Available!</strong>
+                                    </div>
+                                    <p class="fs-5 mb-0">
+                                        <span class="text-muted text-decoration-line-through">₦{{ product.price }}</span>
+                                        &nbsp;
+                                        <span class="fw-bold text-success">₦{{ product.sale_price }}</span>
+                                    </p>
+                                {% else %}
+                                    <p class="fs-5 fw-bold text-dark">₦{{ product.price }}</p>
+                                {% endif %}
+
+                                <hr>
+
+                                <div class="d-flex align-items-center gap-2">
+                                    <a href="{% url 'home' %}" class="btn btn-secondary">
+                                        <i class="bi bi-house-door"></i> Home
+                                    </a>
+                                    <a href="#" class="btn btn-dark">
+                                        <i class="bi bi-cart-plus"></i> Add to Cart
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back to shop link -->
+                <div class="text-center mt-4">
+                    <a href="{% url 'home' %}" class="text-decoration-none text-muted">
+                        ← Back to Shop
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<a href="#" id="add-to-cart" data-product="{{ product.id }}" class="btn btn-dark">
+  <i class="bi bi-cart-plus"></i> Add to Cart
+</a>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  document.getElementById('add-to-cart').addEventListener('click', function(e) {
+    e.preventDefault();
+    const productId = this.dataset.product;
+    fetch("{% url 'cart_add' %}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': csrftoken,
+      },
+      body: `productid=${productId}&productqty=1`
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(`Added to cart! Total items: ${data.qty}`);
+      // You can also update a cart icon counter here
+      document.getElementById('cart-count').innerText = data.qty;
+    });
+  });
+});
+</script>
+
+
+
+{% endblock %} {% endcomment %}

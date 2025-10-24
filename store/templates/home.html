@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Splendz | Quality is a Better Choice</title>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<header class="bg-dark py-5 hero-section">
+    <div class="container px-4 px-lg-5 my-5 text-center text-white">
+        <h1 class="display-4 fw-bold mb-3">Welcome to <span class="text-warning">Splendz</span></h1>
+        <p class="lead fw-normal text-white-50 mb-0">Quality meet's affordability</p>
+    </div>
+</header>
+
+<!-- Product Section -->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        {% if products %}
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {% for product in products %}
+            <div class="col mb-5">
+                <div class="card h-100 shadow-sm product-card border-0 rounded-4">
+                    {% if product.is_sale %}
+                    <!-- Sale badge -->
+                    <div class="badge bg-danger text-white position-absolute sale-badge">Sale</div>
+                    {% endif %}
+
+                    <!-- Product image -->
+                    <img class="card-img-top rounded-top-4" src="{{ product.image.url }}" alt="{{ product.name }}" />
+
+                    <!-- Product details -->
+                    <div class="card-body p-4 text-center">
+                        <h5 class="fw-bolder mb-2">{{ product.name }}</h5>
+
+                        {% if product.is_sale %}
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <i class="bi-star-fill"></i>&nbsp;&nbsp; SALE! &nbsp;&nbsp;<i class="bi-star-fill"></i>
+                        </div>
+                        <p class="mb-1">
+                            <span class="text-muted text-decoration-line-through">₦{{ product.price }}</span>
+                            <span class="fw-semibold text-success">₦{{ product.sale_price }}</span>
+                        </p>
+                        {% else %}
+                        <p class="fw-semibold mb-1">₦{{ product.price }}</p>
+                        {% endif %}
+
+                        <p class="text-muted small">{{ product.description|truncatewords:12 }}</p>
+                    </div>
+
+                    <!-- Product actions -->
+                    <div class="card-footer bg-transparent border-top-0 text-center pb-3">
+                        <a class="btn btn-outline-dark rounded-pill mt-auto px-4" href="{% url 'product' product.id %}">
+                            View Product
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <h4 class="text-muted">No products available at the moment.</h4>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #1c1c1c, #2b2b2b);
+}
+.sale-badge {
+    top: 0.8rem;
+    right: 0.8rem;
+    border-radius: 0.75rem;
+    font-size: 0.85rem;
+    padding: 0.4em 0.75em;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+</style>
+{% endblock %}

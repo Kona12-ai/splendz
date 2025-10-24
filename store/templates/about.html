@@ -1,0 +1,61 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block title %}
+<title>Splendz | About Us</title>
+{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<header class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">About Splendz</h1>
+      <p class="lead fw-normal text-white-50 mb-0">Get to know us better</p>
+    </div>
+  </div>
+</header>
+
+<!-- About Section -->
+<section class="py-5 bg-light">
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-5 align-items-center">
+      <!-- Image -->
+      <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+        <img
+          src="{% static 'assets/splendz-logo-transparent.png' %}"
+          alt="About Splendz"
+          class="img-fluid rounded shadow-lg"
+          style="max-width: 80%;"
+        >
+      </div>
+
+      <!-- Text -->
+      <div class="col-lg-6">
+        <h2 class="fw-bolder mb-3">Who We Are</h2>
+        <p class="lead">
+          At <strong>Splendz</strong>, we believe shopping should be simple, affordable, and enjoyable. 
+          Our mission is to bring you a wide range of quality products — from everyday essentials 
+          to the latest trends — all in one trusted online marketplace.
+        </p>
+
+        <h3 class="fw-semibold mt-4 mb-3">Why Choose Splendz?</h3>
+        <ul class="list-unstyled fs-5">
+          <li>✔ Wide selection of quality products</li>
+          <li>✔ Affordable prices</li>
+          <li>✔ Secure & fast checkout</li>
+          <li>✔ Reliable doorstep delivery</li>
+          <li>✔ Friendly customer support</li>
+        </ul>
+
+        <p class="mt-3">
+          With <strong>Splendz</strong>, shopping is more than just buying — it’s an experience. 
+          We’re here to make your life easier, one product at a time.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
