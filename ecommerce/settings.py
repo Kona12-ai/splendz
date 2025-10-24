@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # ============ SECURITY =============
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-key')
+SECRET_KEY = os.environ.get('pg#7g)-j@gf4=xzbbmmvl@a3o$sbft_!$1)ryy+8#-pe=c6u!u', 'dev-secret-key')
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
@@ -123,8 +123,8 @@ CART_SESSION_ID = 'cart'
 
 
 # ============ PAYSTACK ============
-PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY', '')
-PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY', '')
+PAYSTACK_PUBLIC_KEY = os.environ.get('pk_test_89f379ef5ee990e6303367d664a57606f5578259', '')
+PAYSTACK_SECRET_KEY = os.environ.get('sk_test_4a104059a794e9274928938a7f4d786c28d7e618', '')
 
 
 # ============ DEFAULT AUTO FIELD ============
