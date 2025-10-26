@@ -131,14 +131,6 @@ CLOUDINARY_STORAGE = {
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': os.environ.get('doxicw3ap'),
-#     'API_KEY': os.environ.get('121411195668158'),
-#     'API_SECRET': os.environ.get('**********'),
-# }
-
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 
 
 # ============ SESSION & CART ============
