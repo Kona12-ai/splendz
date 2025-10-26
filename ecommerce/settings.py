@@ -5,6 +5,10 @@ Django settings for ecommerce project — ready for Render deployment.
 from pathlib import Path
 import os
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 
 # BASE DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
+    'cloudinary',
+    'cloudinary_storage',
     # your apps
     'store',
     'cart',
@@ -113,6 +118,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# ======================================
+# MEDIA FILES CONFIGURATION (CLOUDINARY)
+# ======================================
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('doxicw3ap'),
+    'API_KEY': os.environ.get('121411195668158'),
+    'API_SECRET': os.environ.get('**********'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
 
 # ============ SESSION & CART ============
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -134,7 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ============ SECURITY HEADERS (for Render HTTPS) ============
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
-    'https://splendz.onrender.com',
+    'https://splendz-1.onrender.com',
 ]
 
 # Optional: enable secure cookies only when HTTPS
