@@ -9,21 +9,17 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from dotenv import load_dotenv
+
+# Load environment variables from .env (for local only)
 load_dotenv()
-
-
 
 # BASE DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# ============ SECURITY =============
-SECRET_KEY = os.environ.get('pg#7g)-j@gf4=xzbbmmvl@a3o$sbft_!$1)ryy+8#-pe=c6u!u', 'dev-secret-key')
-
+# ============ SECURITY ============
+SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
-
 
 # ============ INSTALLED APPS ============
 INSTALLED_APPS = [
@@ -41,7 +37,6 @@ INSTALLED_APPS = [
     'cart',
 ]
 
-
 # ============ MIDDLEWARE ============
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,15 +49,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'ecommerce.urls'
-
 
 # ============ TEMPLATES ============
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],  # ✅ Use your templates folder
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # ✅ Ensure correct path
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,10 +70,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
-
 # ============ DATABASE ============
 DATABASE_URL = os.environ.get("DATABASE_URL")
-
 if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
@@ -93,7 +84,6 @@ else:
         }
     }
 
-
 # ============ PASSWORD VALIDATION ============
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -102,39 +92,32 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # ============ INTERNATIONALIZATION ============
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
 # ============ STATIC & MEDIA ============
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # ✅ For collectstatic
-
-# ✅ WhiteNoise storage (compressed static files)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Local media fallback (useful only in dev)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # ======================================
-# MEDIA FILES CONFIGURATION (CLOUDINARY)
+# ✅ CLOUDINARY CONFIGURATION
 # ======================================
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'doxicw3ap'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '584678852917768'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'ixFSiyMv0exiWtNu9af-P82ZhWE'),
-}
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME', 'doxicw3ap'),
+    api_key=os.getenv('CLOUDINARY_API_KEY', '584678852917768'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET', 'ixFSiyMv0exiWtNu9af-P82ZhWE'),
+)
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-
-
 
 # ============ SESSION & CART ============
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -143,15 +126,12 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 CART_SESSION_ID = 'cart'
 
-
 # ============ PAYSTACK ============
 PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY', 'pk_test_89f379ef5ee990e6303367d664a57606f5578259')
 PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY', 'sk_test_4a104059a794e9274928938a7f4d786c28d7e618')
 
-
 # ============ DEFAULT AUTO FIELD ============
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # ============ SECURITY HEADERS (for Render HTTPS) ============
 CSRF_TRUSTED_ORIGINS = [
@@ -159,11 +139,11 @@ CSRF_TRUSTED_ORIGINS = [
     'https://splendz-1.onrender.com',
 ]
 
-# Optional: enable secure cookies only when HTTPS
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+
 
 
 
