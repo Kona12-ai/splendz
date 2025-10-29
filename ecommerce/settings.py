@@ -8,6 +8,9 @@ import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from dotenv import load_dotenv
+load_dotenv()
+
 
 
 # BASE DIR
@@ -123,9 +126,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # ======================================
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'doxicw3ap'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '584678852917768'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'ixFSiyMv0exiWtNu9af-P82ZhWE'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -142,8 +145,8 @@ CART_SESSION_ID = 'cart'
 
 
 # ============ PAYSTACK ============
-PAYSTACK_PUBLIC_KEY = os.environ.get('pk_test_89f379ef5ee990e6303367d664a57606f5578259', '')
-PAYSTACK_SECRET_KEY = os.environ.get('sk_test_4a104059a794e9274928938a7f4d786c28d7e618', '')
+PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY', 'pk_test_89f379ef5ee990e6303367d664a57606f5578259')
+PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY', 'sk_test_4a104059a794e9274928938a7f4d786c28d7e618')
 
 
 # ============ DEFAULT AUTO FIELD ============
