@@ -11,71 +11,56 @@
     <h2 class="text-center fw-bold mb-5 text-gradient">Your Shopping Cart</h2>
 
     {% if products_in_cart %}
-    <div class="table-responsive shadow-lg rounded-4 overflow-hidden glass-table">
-      <table class="table align-middle text-center mb-0">
-        <thead class="table-header">
-          <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in products_in_cart %}
-          <tr>
-            <td>
-              <div
-                class="d-flex align-items-center justify-content-center gap-3"
-              >
-                {% if item.product.image %}
-                <img
-                  src="{{ item.product.image.url }}"
-                  alt="{{ item.product.name }}"
-                  width="65"
-                  height="65"
-                  class="rounded-3 shadow-sm"
-                />
-                {% endif %}
-                <span class="fw-semibold">{{ item.product.name }}</span>
-              </div>
-            </td>
-            <td class="fw-medium">${{ item.price }}</td>
-            <td>{{ item.quantity }}</td>
-            <td class="text-success fw-semibold">${{ item.total_price }}</td>
-            <td>
-              <a
-                href="{% url 'cart_decrease' item.product.id %}"
-                class="btn btn-sm btn-outline-danger rounded-circle"
-                title="Decrease"
-                >−</a
-              >
-              <a
-                href="{% url 'cart_add' item.product.id %}"
-                class="btn btn-sm btn-outline-success rounded-circle"
-                title="Increase"
-                >+</a
-              >
-              <a
-                href="{% url 'cart_remove' item.product.id %}"
-                class="btn btn-sm btn-outline-secondary rounded-pill ms-1"
-                >Remove</a
-              >
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="table-container shadow-lg rounded-4 overflow-hidden glass-table">
+      <div class="table-responsive">
+        <table class="table align-middle text-center mb-0">
+          <thead class="table-header">
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in products_in_cart %}
+            <tr>
+              <td>
+                <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap">
+                  {% if item.product.image %}
+                    {% if 'cloudinary.com' in item.product.image.url %}
+                      <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-img rounded-3 shadow-sm" />
+                    {% elif 'cloudinary.com' in item.product.image %}
+                      <img src="{{ item.product.image }}" alt="{{ item.product.name }}" class="cart-img rounded-3 shadow-sm" />
+                    {% else %}
+                      <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-img rounded-3 shadow-sm" />
+                    {% endif %}
+                  {% endif %}
+                  <span class="fw-semibold">{{ item.product.name }}</span>
+                </div>
+              </td>
+              <td class="fw-medium">₦{{ item.price }}</td>
+              <td>{{ item.quantity }}</td>
+              <td class="text-success fw-semibold">₦{{ item.total_price }}</td>
+              <td>
+                <div class="d-flex justify-content-center flex-wrap gap-1">
+                  <a href="{% url 'cart_decrease' item.product.id %}" class="btn btn-sm btn-outline-danger rounded-circle" title="Decrease">−</a>
+                  <a href="{% url 'cart_add' item.product.id %}" class="btn btn-sm btn-outline-success rounded-circle" title="Increase">+</a>
+                  <a href="{% url 'cart_remove' item.product.id %}" class="btn btn-sm btn-outline-secondary rounded-pill">Remove</a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- 🧾 TOTAL + CHECKOUT -->
-    <div
-      class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-3"
-    >
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-3">
       <h4 class="fw-semibold text-center text-md-start">
-        Total:
-        <span class="text-gradient">${{ cart_total }}</span>
+        Total: <span class="text-gradient">₦{{ cart_total }}</span>
       </h4>
       <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg rounded-pill">
         Proceed to Checkout
@@ -83,104 +68,77 @@
     </div>
 
     {% else %}
-    <!-- Empty Cart Message -->
     <div class="alert alert-info text-center mt-5 shadow-sm rounded-4">
       <i class="bi bi-cart-x display-6 d-block mb-2"></i>
       <strong>Your cart is empty.</strong><br />
-      <a href="{% url 'store' %}" class="alert-link text-decoration-none"
-        >Continue Shopping</a
-      >
+      <a href="{% url 'store' %}" class="alert-link text-decoration-none">Continue Shopping</a>
     </div>
     {% endif %}
   </div>
 </section>
 
-<!-- 🌈 CART PAGE STYLES -->
 <style>
-  /* 🧊 Glass table effect */
   .glass-table {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.3);
   }
-
   body.dark-mode .glass-table {
     background: rgba(25, 25, 25, 0.85);
     border-color: rgba(255, 255, 255, 0.1);
   }
-
-  /* ✨ Table header styling */
   .table-header {
     background: linear-gradient(90deg, #0d6efd, #6610f2);
     color: #fff;
     font-weight: 600;
   }
-
   .table td,
   .table th {
     vertical-align: middle;
   }
-
-  .table td {
-    padding: 1rem;
-  }
-
-  /* 🌈 Gradient text */
   .text-gradient {
     background: linear-gradient(90deg, #0d6efd, #6610f2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-
-  /* 🛍 Buttons */
   .btn {
     transition: all 0.3s ease;
   }
-
   .btn:hover {
     transform: translateY(-2px);
   }
-
-  .btn-outline-danger:hover {
-    background-color: #dc3545;
-    color: white;
+  .cart-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
   }
 
-  .btn-outline-success:hover {
-    background-color: #198754;
-    color: white;
-  }
-
-  .btn-outline-secondary:hover {
-    background-color: #6c757d;
-    color: white;
-  }
-
-  /* 🪶 Animation */
-  [data-animate] {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease;
-  }
-  [data-animate].visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Responsive tweaks */
+  /* ✅ RESPONSIVE FIXES */
   @media (max-width: 768px) {
     table {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+    }
+    .cart-img {
+      width: 50px;
+      height: 50px;
     }
     .btn {
-      padding: 0.25rem 0.6rem;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+    }
+    .d-flex.flex-md-row {
+      flex-direction: column !important;
+      text-align: center;
+    }
+    .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
   }
 </style>
 
 <script>
-  // Animate section on scroll
   const animateElems = document.querySelectorAll("[data-animate]");
   const revealOnScroll = () => {
     animateElems.forEach((el) => {
@@ -191,4 +149,5 @@
   window.addEventListener("scroll", revealOnScroll);
   revealOnScroll();
 </script>
+
 {% endblock %}
