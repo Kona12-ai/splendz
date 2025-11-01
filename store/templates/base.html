@@ -88,6 +88,7 @@
         width: 100%;
       }
 
+      
       /* ⚡ ALERT STYLING */
       .alert {
         max-width: 600px;
@@ -105,17 +106,7 @@
         margin-top: 80px;
       }
 
-      footer::before {
-        content: "";
-        position: absolute;
-        top: -3px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 120px;
-        height: 3px;
-        background: linear-gradient(90deg, #0d6efd, #6610f2);
-        border-radius: 10px;
-      }
+      
 
       footer p {
         margin: 0;
@@ -149,6 +140,38 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
       }
+
+      /* 🚫 FULL FIX: Remove all nav underline or pseudo-element artifacts */
+nav.navbar .nav-link::after,
+nav.navbar .nav-link::before {
+  content: none !important;
+  display: none !important;
+}
+
+nav.navbar .nav-link {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  text-decoration: none !important;
+}
+
+/* 🧹 Extra cleanup for rare focus/active artifacts */
+nav.navbar .nav-link:focus,
+nav.navbar .nav-link:active,
+nav.navbar .nav-link[aria-current="page"] {
+  outline: none !important;
+  border: none !important;
+  background: transparent !important;
+  color: #333 !important;
+}
+
+nav.navbar *::after,
+nav.navbar *::before {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
 
       /* 🌒 DARK MODE SUPPORT (optional toggle ready) */
       body.dark-mode {
@@ -226,6 +249,18 @@
         localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
       };
       if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark-mode");
+
+      // 🕒 Auto-dismiss Django alerts after 3 seconds
+         document.addEventListener("DOMContentLoaded", function () {
+         const alerts = document.querySelectorAll(".alert");
+        alerts.forEach(alert => {
+      setTimeout(() => {
+        alert.classList.remove("show");
+        alert.classList.add("fade");
+        setTimeout(() => alert.remove(), 500); // remove after fade
+      }, 3000); // time before fade starts (3 seconds)
+    });
+  });
     </script>
   </body>
 </html>
